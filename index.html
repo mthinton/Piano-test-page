@@ -51,6 +51,15 @@
     </div>
 
     <script>
+             //creates the tp global object
+    tp = window.tp || [];
+    //this allows us to use the PianoId functions
+    tp.push(["setUsePianoIdUserProvider", true ]);
+    //verifying we are working in sandbox environment
+    tp.push(["setSandbox", true]);
+    //generate logout button if user is logged in
+    //here is where the action starts, with the init function
+
             //pre-requisite javascript for any piano sandbox application
     (function(src){
         var a=document.createElement("script");
