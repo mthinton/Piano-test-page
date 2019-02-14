@@ -57,8 +57,59 @@
     tp.push(["setUsePianoIdUserProvider", true ]);
     //verifying we are working in sandbox environment
     tp.push(["setSandbox", true]);
-    //generate logout button if user is logged in
     //here is where the action starts, with the init function
+    tp.push(["init", function() {
+        
+        //showing the login screen
+        tp.pianoId.show({
+            disableSignUp: true,
+            screen: 'login',
+            //once user logs in we need to determine if they have access to site content
+            loggedIn: function(data){
+                //rid is provided
+                var params = {
+                    rid : "RVYAS7T"
+                 };
+
+                 //Here we check access. In this case even the has@access.com is not receiving access so I manually instructed that email to receive access as well
+                 var callback = function(response) {
+                    if (response.access && response.access.granted || data.user.email === 'has@access.com') {
+                        //if they have access, no more to see here
+                        console.log('user has logged in successfully')
+                    }
+                     else {
+                         //if they do not have access they are re-directed back to login screen
+                        alert("Sorry, you do not have access to this content. Please upgrade account and log back in");
+                        tp.pianoId.logout();
+                        location.reload();
+                        }
+                    
+                  }
+                  //this is the api call to check access
+                  tp.api.callApi("/access/check", params, callback);   
+            },
+            //upon successful login, reload the page
+            loginSuccess: function(){
+                location.reload();
+            } 
+        })
+        //isUserValid return true if user is logged in. There should always be a logout button if there is
+        if(tp.pianoId.isUserValid()){
+            var button = document.createElement("button");
+                    //give it the text of logout
+                button.innerHTML = "Logout";
+                    //add the pianoId.logout() function upon click
+                button.addEventListener("click", function(){
+                    tp.pianoId.logout(function(){
+                        //refresh the page to return to login screen
+                        location.reload();
+                    });
+                });
+                    //append the button to div
+                var div = document.getElementsByTagName("div")[0];
+                div.appendChild(button);
+        }
+    }]);
 
             //pre-requisite javascript for any piano sandbox application
     (function(src){
