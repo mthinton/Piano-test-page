@@ -64,30 +64,7 @@
         tp.pianoId.show({
             disableSignUp: true,
             screen: 'login',
-            //once user logs in we need to determine if they have access to site content
-            loggedIn: function(data){
-                //rid is provided
-                var params = {
-                    rid : "RVYAS7T"
-                 };
-
-                 //Here we check access. In this case even the has@access.com is not receiving access so I manually instructed that email to receive access as well
-                 var callback = function(response) {
-                    if (response.access && response.access.granted || data.user.email === 'has@access.com') {
-                        //if they have access, no more to see here
-                        console.log('user has logged in successfully')
-                    }
-                     else {
-                         //if they do not have access they are re-directed back to login screen
-                        alert("Sorry, you do not have access to this content. Please upgrade account and log back in");
-                        tp.pianoId.logout();
-                        location.reload();
-                        }
-                    
-                  }
-                  //this is the api call to check access
-                  tp.api.callApi("/access/check", params, callback);   
-            },
+            
             //upon successful login, reload the page
             loginSuccess: function(){
                 location.reload();
@@ -112,15 +89,9 @@
     }]);
 
             //pre-requisite javascript for any piano sandbox application
-    (function(src){
-        var a=document.createElement("script");
-        a.type="text/javascript";
-        a.async=true;
-        a.src=src;
-        var b=document.getElementsByTagName("script")[0];
-        b.parentNode.insertBefore(a,b)})
-        ("https://sandbox.tinypass.com/xbuilder/experience/load?aid=o1sRRZSLlw");
-    </script>
+            (function(src){var a=document.createElement("script");a.type="text/javascript";a.async=true;a.src=src;var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})
+            ("https://sandbox.tinypass.com/xbuilder/experience/load?aid=bW69IEsHwA");
+            </script>
     </body>
 </html>
 
